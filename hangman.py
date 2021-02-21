@@ -1,4 +1,5 @@
 import random
+import time
 import json
 
 # creates a hidden word
@@ -95,10 +96,11 @@ def update_hidden_word(hiddenword, letter, word):
 
 # runs the hangman game
 def hangman_game():
+    guessed = []
     bag_of_words = get_bag_of_words()
 
     random_word = random.choice(list(bag_of_words.keys()))
-
+    #random_word = "bruh"
     num_wrong_guesses = 0
 
     num_right_guesses = 0
@@ -112,15 +114,31 @@ def hangman_game():
 
         print(hidden_word)
 
-        print("Guess a letter: ")
 
-        letter_guessed = input()
+        keep_guessing = True
+
+        print("Guess a letter: ")
+        letter_guessed = input().lower()
+        while(True):
+
+            if (letter_guessed in guessed):
+                print("Error! You already tried that!")
+                time.sleep(0.3)
+                print("Please try again")
+                letter_guessed = input().lower()
+                continue
+            else:
+                break
+
+        guessed.append(letter_guessed)
+
 
         if guess_letter(random_word, letter_guessed) > 0:
 
-            num_right_guesses += guess_letter(random_word, letter_guessed)
-            hidden_word = update_hidden_word(hidden_word, letter_guessed, random_word)
-            print(f"good job! you guessed {num_right_guesses} letters correct!")
+                num_right_guesses += guess_letter(random_word, letter_guessed)
+                hidden_word = update_hidden_word(hidden_word, letter_guessed, random_word)
+                print(f"good job! you guessed {num_right_guesses} letters correct!")
+
 
         else:
 
@@ -129,10 +147,14 @@ def hangman_game():
 
     if num_right_guesses == len(random_word):
 
+        time.sleep(2)
         print("Congratulations! You Won!")
 
     else:
+        time.sleep(1)
         print("Oh no! you lost!")
+
+        time.sleep(1)
         print(f"The correct word was: {random_word}")
 
 hangman_game()
