@@ -156,8 +156,18 @@ def hangman_game():
 
         time.sleep(1)
         print(f"The correct word was: {random_word}")
+        
+end = False
+while end != True:
+    hangman_game()
+    print("Would you like to try again? Y/N", end = ' ')
+    ans = input().lower()
+    if (ans == 'y'):
+        continue
+    else:
+        print("Have a nice day!")
+        break
 
-hangman_game()
 
 
 
